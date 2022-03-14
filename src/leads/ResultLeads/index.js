@@ -56,22 +56,39 @@ function ResultLeads() {
   //busqueda por campo de texto busqueda
   let searchLeadsTodos = [];
 
-  if (!searchTextValue.length >= 1) {
+  console.log("campo-busqueda: " + searchTextValue.length + "campo-fuente: " + searchFuenteValue.length + "municipio-busqueda: " + searchMunicipioValue.length );
+
+  if ((!searchTextValue.length >= 1) && (!searchFuenteValue.length >= 1) && (!searchMunicipioValue.length >= 1)) {
     searchLeadsTodos = leads;
   } else {
     searchLeadsTodos = leads.filter((lead) => {
-      //base de datos
+
       const leadText = lead.nombre.toLowerCase();
+      const leadFuente = lead.fuente.toLowerCase();
+      const leadMunicipio = lead.municipio.toLowerCase();
 
-      //valor a buscar
+      //valor a buscar campo de texto
       const searchText = searchTextValue.toLowerCase();
+      if(searchText){
+        return leadText.includes(searchText);
+      }
 
-      return leadText.includes(searchText);
+      //valor a buscar fuente
+      const searchFuente = searchFuenteValue.toLowerCase();
+      if(searchFuente){
+        return leadFuente.includes(searchFuente);
+      }
+
+      //valor a buscar municipio
+      const searchMunicipio = searchMunicipioValue.toLowerCase();
+      if(searchMunicipio){
+        return leadMunicipio.includes(searchMunicipio);
+      }
     });
   }
 
   //busqueda por campo de fuente
-  if (!searchFuenteValue.length >= 1) {
+  /*if (!searchFuenteValue.length >= 1) {
     searchLeadsTodos = leads;
   } else {
     searchLeadsTodos = leads.filter((lead) => {
@@ -81,9 +98,9 @@ function ResultLeads() {
       //valor a buscar
       const searchFuente = searchFuenteValue.toLowerCase();
 
-      return leadFuente.includes(searchFuente);
+     
     });
-  }
+  }*/
 
   //busqueda por campo de Ciudad
  /* if (!searchMunicipioValue.length >= 1) {
