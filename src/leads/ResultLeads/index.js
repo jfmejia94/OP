@@ -5,6 +5,7 @@ import "./useLeads.js";
 import { LeadItem } from "../LeadItem";
 import { SearchLeads } from "../SearchLeads";
 import { CounterLeads } from "../CounterLeads";
+import { LeadsList } from "../LeadsList";
 
 //material design
 import { makeStyles } from "@material-ui/core/styles";
@@ -56,32 +57,42 @@ function ResultLeads() {
   //busqueda por campo de texto busqueda
   let searchLeadsTodos = [];
 
-  console.log("campo-busqueda: " + searchTextValue.length + "campo-fuente: " + searchFuenteValue.length + "municipio-busqueda: " + searchMunicipioValue.length );
+  console.log(
+    "campo-busqueda: " +
+      searchTextValue.length +
+      "campo-fuente: " +
+      searchFuenteValue.length +
+      "municipio-busqueda: " +
+      searchMunicipioValue.length
+  );
 
-  if ((!searchTextValue.length >= 1) && (!searchFuenteValue.length >= 1) && (!searchMunicipioValue.length >= 1)) {
+  if (
+    !searchTextValue.length >= 1 &&
+    !searchFuenteValue.length >= 1 &&
+    !searchMunicipioValue.length >= 1
+  ) {
     searchLeadsTodos = leads;
   } else {
     searchLeadsTodos = leads.filter((lead) => {
-
       const leadText = lead.nombre.toLowerCase();
       const leadFuente = lead.fuente.toLowerCase();
       const leadMunicipio = lead.municipio.toLowerCase();
 
       //valor a buscar campo de texto
       const searchText = searchTextValue.toLowerCase();
-      if(searchText){
+      if (searchText) {
         return leadText.includes(searchText);
       }
 
       //valor a buscar fuente
       const searchFuente = searchFuenteValue.toLowerCase();
-      if(searchFuente){
+      if (searchFuente) {
         return leadFuente.includes(searchFuente);
       }
 
       //valor a buscar municipio
       const searchMunicipio = searchMunicipioValue.toLowerCase();
-      if(searchMunicipio){
+      if (searchMunicipio) {
         return leadMunicipio.includes(searchMunicipio);
       }
     });
@@ -97,13 +108,11 @@ function ResultLeads() {
 
       //valor a buscar
       const searchFuente = searchFuenteValue.toLowerCase();
-
-     
     });
   }*/
 
   //busqueda por campo de Ciudad
- /* if (!searchMunicipioValue.length >= 1) {
+  /* if (!searchMunicipioValue.length >= 1) {
     searchLeadsTodos = leads;
   } else {
     searchLeadsTodos = leads.filter((lead) => {
@@ -128,10 +137,12 @@ function ResultLeads() {
           searchMunicipioValue={searchMunicipioValue}
           setSearchMunicipio={setSearchMunicipio}
         />
+
         <CounterLeads
           total={totalLeads}
           totalComplete={completeIntegradeLeads}
         />
+
         <TableContainer component={Paper}>
           <Table
             className={classes.table}
@@ -150,20 +161,39 @@ function ResultLeads() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {searchLeadsTodos.map((row) => (
-                <LeadItem
-                  id={row.id}
-                  nombre={row.nombre}
-                  documento={row.documento}
-                  correo={row.correo}
-                  marca={row.marca}
-                  socio={row.socio}
-                  fecha={row.fecha}
-                  // completed={todo.completed}
-                  // onComplete={() => completeTodo(todo.text)}
-                  // onDelete={() => deleteTodo(todo.text)}
-                />
-              ))}
+              <LeadsList>
+                error={error}
+                loading={loading}
+                searchLeadsTodos={searchLeadsTodos}
+                onError={() => <TodoError />}
+                onLoading={() => <onLoading />}
+                onEmptyLeads={() => <onEmptyLeads />}
+                render={row =>(
+                    <LeadItem
+                    id={row.id}
+                    nombre={row.nombre}
+                    documento={row.documento}
+                    correo={row.correo}
+                    marca={row.marca}
+                    socio={row.socio}
+                    fecha={row.fecha}
+                    />
+                )}
+                {/*searchLeadsTodos.map((row) => (
+                  <LeadItem
+                    id={row.id}
+                    nombre={row.nombre}
+                    documento={row.documento}
+                    correo={row.correo}
+                    marca={row.marca}
+                    socio={row.socio}
+                    fecha={row.fecha}
+                    // completed={todo.completed}
+                    // onComplete={() => completeTodo(todo.text)}
+                    // onDelete={() => deleteTodo(todo.text)}
+                  />
+                ))*/}
+              </LeadsList>
             </TableBody>
           </Table>
         </TableContainer>
